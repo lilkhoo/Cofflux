@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
-class DataUserController extends Controller
+class TransaksiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class DataUserController extends Controller
      */
     public function index()
     {
-        // return User::all();  
-        return view('dashboardAdmin.users.index', [
-            'users' => User::all()
+        // return Transaksi::all();
+        return view('dashboardAdmin.transaksis.index', [
+            'transaksis' => Transaksi::latest()->get()
         ]);
     }
 
@@ -27,10 +27,7 @@ class DataUserController extends Controller
      */
     public function create()
     {
-        // return User::all();
-        return view('dashboardAdmin.users.create', [
-            'users' => User::latest()->get()
-        ]);
+        //
     }
 
     /**
@@ -41,27 +38,16 @@ class DataUserController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:100',
-            'email' => 'required|email:dns|unique:users',
-            'roles' => 'required',
-            'password' => 'required|min:3'
-        ]);
-
-        $validatedData['password'] = bcrypt($validatedData['password']);
-
-        User::create($validatedData);
-
-        return redirect('/dashboard/users')->with('success', 'New Users Successfully Added ');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Transaksi $transaksi)
     {
         //
     }
@@ -69,10 +55,10 @@ class DataUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Transaksi $transaksi)
     {
         //
     }
@@ -81,10 +67,10 @@ class DataUserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Transaksi $transaksi)
     {
         //
     }
@@ -92,10 +78,10 @@ class DataUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Transaksi $transaksi)
     {
         //
     }

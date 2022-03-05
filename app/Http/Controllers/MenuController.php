@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Pegawai;
 
 class MenuController extends Controller
 {
@@ -14,6 +15,7 @@ class MenuController extends Controller
      */
     public function index()
     {
+        // return Pegawai::all(); 
         return view('menus', [
             "title" => "Cofflux | Menu's",
             // "menus" => Menu::all()

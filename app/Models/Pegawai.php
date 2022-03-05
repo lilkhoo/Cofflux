@@ -12,7 +12,13 @@ class Pegawai extends Model
     protected $guarded = ['id'];
 
 
-    public function menus() {
+    public function menus()
+    {
         return $this->hasMany(Menu::class);
+    }
+
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
     }
 }

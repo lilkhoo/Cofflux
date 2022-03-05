@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Category;
+use App\Models\Menu;
+use App\Models\Pegawai;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DataUserController extends Controller
+class PembelianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +18,7 @@ class DataUserController extends Controller
      */
     public function index()
     {
-        // return User::all();  
-        return view('dashboardAdmin.users.index', [
-            'users' => User::all()
-        ]);
+        // return view('transaksi.index');
     }
 
     /**
@@ -27,9 +28,10 @@ class DataUserController extends Controller
      */
     public function create()
     {
-        // return User::all();
-        return view('dashboardAdmin.users.create', [
-            'users' => User::latest()->get()
+        return view('transaksi.create', [
+            'menus' => Menu::latest()->get(),
+            'categories' => Category::all(),
+            'pegawais' => Pegawai::all()
         ]);
     }
 
@@ -41,27 +43,29 @@ class DataUserController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $validatedData = $request->validate([
-            'name' => 'required|max:100',
-            'email' => 'required|email:dns|unique:users',
-            'roles' => 'required',
-            'password' => 'required|min:3'
+            // 'nama_pelanggan' => 'required|max:100',
+            'menu_id' => 'required',
+            'jumlah' => 'required',
         ]);
 
-        $validatedData['password'] = bcrypt($validatedData['password']);
+        $validatedData['user_id'] = Auth::user()->id;
+        // $validatedData['pembuat'] = $pegawai->pembuat;
+        $validatedData['total'] = Menu::find($request->menu_id)->harga * $request->jumlah;
 
-        User::create($validatedData);
+        Transaksi::create($validatedData);
 
-        return redirect('/dashboard/users')->with('success', 'New Users Successfully Added ');
+        return redirect('/menus')->with('success', 'Pembelian Berhasil');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
     }
@@ -69,10 +73,10 @@ class DataUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         //
     }
@@ -81,10 +85,10 @@ class DataUserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -92,10 +96,10 @@ class DataUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         //
     }

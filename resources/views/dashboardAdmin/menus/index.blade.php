@@ -13,7 +13,7 @@
 
             {{-- Akan Dijalankan Untuk Sort Data Dari Tanggal / Created at (Kalo Jadi) --}}
             <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
+                <span data-feather="clipboard"></span>
                 This week
             </button>
         </div>
@@ -35,7 +35,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Nama Menu</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Deskripsi</th>
+                    {{-- <th scope="col">Deskripsi</th> --}}
                     <th scope="col">Harga</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Action</th>
@@ -47,13 +47,21 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $menu->namamenu }}</td>
                         <td>{{ $menu->category->name }}</td>
-                        <td>{!! $menu->deskripsi !!}</td>
+                        {{-- <td>{!! $menu->deskripsi !!}</td> --}}
                         <td>{{ $menu->harga }}</td>
                         <td>{{ $menu->ketersediaan }}</td>
                         <td>
-                            <a href=""><i class="bi bi-pencil-square"></i></a>
-                            <a href="/dashboard/menus/{{ $menu->slug }}"><i class="bi bi-eye-fill"></i></a>
-                            <a href=""><i class="bi bi-trash-fill"></i></a>
+                            <a href="/dashboard/menus/{{ $menu->slug }}/edit" class="badge bg-info"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            <a href="/dashboard/menus/{{ $menu->slug }}" class="badge bg-warning"><i
+                                    class="bi bi-eye-fill"></i></a>
+                            <form action="/dashboard/menus/{{ $menu->slug }}" method="post" class="d-inline">
+                                @method('delete')
+                                @csrf
+
+                                <button class="badge bg-danger border-0" onclick="return confirm('Are You Sure ?')"><i
+                                        class="bi bi-trash-fill"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Pegawai;
+use App\Models\Transaksi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -49,7 +50,17 @@ class DatabaseSeeder extends Seeder
         // ]);
 
 
+        User::Create([
+            'name' => 'Eko Setyono Wibowo',
+            'email' => 'bowo1120@gmail.com',
+            'password' => bcrypt('password')
+        ]);
+
         User::factory(10)->create();
+
+
+
+
         // id = 1
         Category::create([
             'name' => 'Makanan',
@@ -77,6 +88,8 @@ class DatabaseSeeder extends Seeder
         Pegawai::factory(4)->create();
 
         Menu::factory(20)->create();
+
+        Transaksi::factory(10)->create();
 
         // Menu::create([
         //     'namamenu' => 'Hot Coffee',

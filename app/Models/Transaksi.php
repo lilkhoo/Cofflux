@@ -13,7 +13,7 @@ class Transaksi extends Model
 
     protected $guarded = ['id'];
 
-    public function namamenu()
+    public function menu()
     {
         return $this->belongsTo(Menu::class);
     }
@@ -22,4 +22,9 @@ class Transaksi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // public function pegawai()
+    // {
+    //     return $this->belongsTo(Pegawai::class);
+    // }
 }

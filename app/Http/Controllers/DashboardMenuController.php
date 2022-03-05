@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardMenuController extends Controller
 {
@@ -44,14 +45,25 @@ class DashboardMenuController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request);
+
+        // Cek Path images
+        // return $request->file('image')->store('menu-images');
+
         $validatedData = $request->validate([
             'namamenu' => 'required|max:255',
             'slug' => 'required|unique:menus',
             'harga' => 'required',
+            'image' => 'required|image|file|max:10000', // Cek Ukuran Image (Satuan Kilobyte)
             'pegawai_id' => 'required',
             'category_id' => 'required',
             'deskripsi' => 'required|max:100'
         ]);
+
+        if ($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('menu-images');
+        }
 
         $validatedData['ketersediaan'] = 10;
 
@@ -81,6 +93,11 @@ class DashboardMenuController extends Controller
      */
     public function edit(Menu $menu)
     {
+        return view('dashboardAdmin.menus.edit', [
+            'menu' => $menu,
+            'categories' => Category::all(),
+            'pegawais' => Pegawai::all()
+        ]);
     }
 
     /**
@@ -92,7 +109,36 @@ class DashboardMenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        //
+        $rules = [
+            'namamenu' => 'required|max:255',
+            'harga' => 'required',
+            'image' => 'image|file|max:1000',
+            'pegawai_id' => 'required',
+            'category_id' => 'required',
+            'deskripsi' => 'required|max:100'
+        ];
+
+        // Check Slug (Jika Baru Pakai Yang baru) Jika lama Pakai yang lama kalo ada
+        if ($request->slug != $menu->slug) {
+            $rules['slug'] = 'required|unique:menus';
+        }
+
+
+        $validatedData = $request->validate($rules);
+
+        // Check Image (Jika Baru Pakai Yang baru) Jika lama Pakai yang lama kalo ada
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('menu-images');
+        }
+
+        $validatedData['ketersediaan'] = 10;
+
+        Menu::where('id', $menu->id)->update($validatedData);
+
+        return redirect('/dashboard/menus')->with('success', 'Menu Has Been Updated !');
     }
 
     /**
@@ -103,7 +149,13 @@ class DashboardMenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        if ($menu->image) {
+            Storage::delete($menu->image);
+        }
+
+        Menu::destroy($menu->id);
+
+        return redirect('/dashboard/menus')->with('success', 'Menu Has Been Deleted !');
     }
 
     public function checkSlug(Request $request)

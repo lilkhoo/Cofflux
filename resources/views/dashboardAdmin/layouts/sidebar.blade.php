@@ -20,6 +20,13 @@
                     Data Users
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('dashboard/transaksi') ? 'active' : '' }}"
+                    href="/dashboard/transaksis">
+                    <span data-feather="monitor"></span>
+                    Data Transaksi
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

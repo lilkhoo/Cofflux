@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->foreignId('pegawai_id');
             $table->string('slug')->unique();
+            $table->string('image')->nullable();
             $table->integer('harga');
             $table->string('deskripsi');
             $table->string('ketersediaan');

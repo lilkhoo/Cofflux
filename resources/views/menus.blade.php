@@ -24,12 +24,23 @@
         </div>
     </div>
 
+    @if (session()->has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     @if ($menus->count())
         {{-- Card Hero --}}
         <div class="card mb-3">
-            <img src="https://source.unsplash.com/1200x400/?{{ $menus[0]->category->name }}" class="card-img-top"
-                alt="{{ $menus[0]->category->name }}">
+            @if ($menus[0]->image)
+                <img src="{{ asset('storage/' . $menus[0]->image) }}" alt="{{ $menus[0]->category->name }}"
+                    class="img-fluid">
+            @else
+                <img src="https://source.unsplash.com/1200x400/?{{ $menus[0]->category->name }}" class="card-img-top"
+                    alt="{{ $menus[0]->category->name }}">
+            @endif
+
             <div class="card-body text-center">
                 <h3 class="card-title"><a href="/menus/{{ $menus[0]->slug }}"
                         class="text-decoration-none text-dark">{{ $menus[0]->namamenu }}</a></h3>
@@ -38,9 +49,9 @@
                         href="/menus?category={{ $menus[0]->category->slug }}"
                         class="text-decoration-none">{{ $menus[0]->category->name }}</a></p>
                 <p class="card-text">Rp. {{ $menus[0]->harga }}</p>
-                <p class="card-text">{{ $menus[0]->deskripsi }}</p>
+                <p class="card-text">{!! $menus[0]->deskripsi !!}</p>
                 <p class="card-text"><small class="text-muted">Menu Creation Estimate : 10 Minutes</small></p>
-                <a href="" class="btn btn-primary mb-2">Pesan</a>
+                {{-- <a href="/transaksi/{{ $menus[0]->slug }}/create" class="btn btn-primary mb-2">Pesan</a> --}}
             </div>
         </div>
 
@@ -60,9 +71,16 @@
                                     {{ $menu->category->name }}
                                 </a>
                             </div>
-                            <img src="https://source.unsplash.com/500x350/?{{ $menu->category->name }}"
-                                class="card-img-top" alt={{ $menu->category->name }}>
-                            <h5 class="card-title">{{ $menu->namamenu }}</h5>
+                            @if ($menu->image)
+                                <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->category->name }}"
+                                    class="img-fluid">
+                            @else
+                                <img src="https://source.unsplash.com/500x350/?{{ $menu->category->name }}"
+                                    class="card-img-top" alt={{ $menu->category->name }}>
+                            @endif
+
+                            <h5 class="card-title"><a href="/menus/{{ $menu->slug }}"
+                                    class="text-decoration-none text-dark">{{ $menu->namamenu }}</a></h5>
 
                             <p>Made By : <a href="/barista/{{ $menu->pegawai->username }}"
                                     class="text-decoration-none text-dark">{{ $menu->pegawai->pembuat }}</a>
@@ -70,13 +88,13 @@
 
                             <small>Rp. {{ $menu->harga }}</small>
 
-                            <p>{{ $menu->deskripsi }}</p>
+                            <p>{!! $menu->deskripsi !!}</p>
 
                             <p class="card-text"><small class="text-muted">Menu Creation Estimate : 10
                                     Minutes</small>
                             </p>
 
-                            <a href="" class="btn btn-primary mb-2">Pesan</a>
+                            {{-- <a href="/transaksi/{{ $menu->slug }}/create" class="btn btn-primary mb-2">Pesan</a> --}}
                         </div>
                     </div>
                 @endforeach

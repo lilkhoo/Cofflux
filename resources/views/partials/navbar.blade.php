@@ -23,6 +23,14 @@
                         href="/categories">Categories</a>
                 </li>
             </ul>
+            @auth
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {{ $title === 'Cofflux | Transaksi' ? 'active' : '' }}"
+                            href="/transaksi/create">Beli</a>
+                    </li>
+                </ul>
+            @endauth
 
             <ul class="navbar-nav ms-auto">
                 @auth
@@ -35,7 +43,8 @@
                             <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-layout-text-window-reverse"></i>
                                     My
                                     Dashboard</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-clipboard-data"></i> Data User</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/users"><i class="bi bi-clipboard-data"></i> Data
+                                    User</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -53,6 +62,8 @@
                     </li>
                 @endauth
             </ul>
+
+
 
         </div>
     </div>

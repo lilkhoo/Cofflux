@@ -23,16 +23,6 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username"
-                    value="{{ old('username') }}" required>
-                @error('username')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-            <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
                     value="{{ old('email') }}" required>
@@ -45,31 +35,28 @@
             <div class="mb-3">
                 <label for="roles" class="form-label">Role</label>
                 <select class="form-select" name="roles">
-                    @foreach ($users as $user)
-                            <option value="{{ $user->roles }}" selected>{{ $user->roles }}</option>
+                    @php
+                        $roles = ['kasir', 'manager', 'admin'];
+                    @endphp
+                    @foreach ($roles as $role)
+                        <option value="{{ $role }}" selected>{{ $role }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control @error('name') is-invalid @enderror" id="password"
+                    name="password" required autofocus>
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary">Add User</button>
         </form>
 
     </div>
-
-
-    {{-- Masih Error --}}
-    <script>
-        const namamenu = document.querySelector('#namamenu');
-        const slug = document.querySelector('#slug');
-
-        namamenu.addEventListener('change', function() {
-            fetch('/dashboard/menus/checkSlug?namamenu=' + namamenu.value)
-                .then(response => response.json())
-                .then(data => slug.value = data.slug)
-        });
-
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        })
-    </script>
 @endsection

@@ -9,6 +9,10 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\PembelianController;
+
+use function GuzzleHttp\Promise\all;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +75,8 @@ Route::get('/barista/{pegawai:username}', function (Pegawai $pegawai) {
     return view('menus', [
         'title' => "Cofflux | Barista",
         // 'topline' => "Barista : $pegawai->pembuat",
-        'menus' => $pegawai->menus->load('category', 'pegawai'),
+        'menus' => $pegawai->menus->load('category', 'pegawai')->paginate(7),
+        // 'menus' => Pegawai::all()->paginate(10)
     ]);
 });
 
@@ -102,7 +107,10 @@ Route::resource('/dashboard/menus', DashboardMenuController::class)->middleware(
 // Route Resource DashboardAdmin User Page
 Route::resource('/dashboard/users', DataUserController::class)->middleware('auth');
 
+// Route Resource DashboardAdmin Transaksi Page
+Route::resource('/dashboard/transaksis', TransaksiController::class)->middleware('auth');
 
+Route::resource('/transaksi', PembelianController::class)->middleware('auth');
 
 
 
