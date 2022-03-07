@@ -8,6 +8,8 @@ use App\Models\Pegawai;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\CarbonTimeZone;
 
 class PembelianController extends Controller
 {
@@ -30,8 +32,6 @@ class PembelianController extends Controller
     {
         return view('transaksi.create', [
             'menus' => Menu::latest()->get(),
-            'categories' => Category::all(),
-            'pegawais' => Pegawai::all()
         ]);
     }
 
@@ -50,13 +50,15 @@ class PembelianController extends Controller
             'jumlah' => 'required',
         ]);
 
+        $validatedData['tgl_transaksi'] = date('Y-m-d');
+
         $validatedData['user_id'] = Auth::user()->id;
         // $validatedData['pembuat'] = $pegawai->pembuat;
         $validatedData['total'] = Menu::find($request->menu_id)->harga * $request->jumlah;
 
-        Transaksi::create($validatedData);
+        $transaksi = Transaksi::create($validatedData);
 
-        return redirect('/menus')->with('success', 'Pembelian Berhasil');
+        return redirect('/transaksi/' . $transaksi->id)->with('success', 'Pembelian Berhasil');
     }
 
     /**
@@ -67,7 +69,14 @@ class PembelianController extends Controller
      */
     public function show($id)
     {
-        //
+        // return view('transaksi.struk', [
+        //     'transaksi' => Transaksi::find($id)
+        // ]);
+
+        $pdf = PDF::loadView('transaksi.struk', [
+            'transaksi' => Transaksi::find($id)
+        ]);
+        return $pdf->stream('struk.pdf');
     }
 
     /**

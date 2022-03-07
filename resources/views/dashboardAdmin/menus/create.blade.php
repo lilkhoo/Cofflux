@@ -97,20 +97,20 @@
     </div>
 
 
-    {{-- Masih Error --}}
+    {{-- Udah Ngga Error dong --}}
     <script>
-        // const namamenu = document.querySelector('#namamenu');
-        // const slug = document.querySelector('#slug');
+        const namamenu = document.querySelector('#namamenu');
+        const slug = document.querySelector('#slug');
 
-        // namamenu.addEventListener('change', function() {
-        //     fetch('/dashboard/menus/checkSlug?namamenu=' + namamenu.value)
-        //         .then(response => response.json())
-        //         .then(data => slug.value = data.slug)
-        // });
+        namamenu.addEventListener('change', function() {
+            fetch('/checkslug?namamenu=' + namamenu.value)
+                .then(response => response.json())
+                .then(data => slug.value = data.slug)
+        });
 
-        // document.addEventListener('trix-file-accept', function(e) {
-        //     e.preventDefault();
-        // })
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        })
 
 
         // Preview Image

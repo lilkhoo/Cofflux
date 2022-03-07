@@ -3,20 +3,6 @@
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Data Users</h1>
-
-        {{-- Akan dipakai Buat Export ke PDF (Kalo Jadi) --}}
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-
-            {{-- Akan Dijalankan Untuk Sort Data Dari Tanggal / Created at (Kalo Jadi) --}}
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-            </button>
-        </div>
     </div>
 
     {{-- Alerts Untuk Konfirmasi Data Berhasil --}}
@@ -48,8 +34,16 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->roles }}</td>
                         <td>
-                            <a href=""><i class="bi bi-pencil-square"></i></a>
-                            <a href=""><i class="bi bi-trash-fill"></i></a>
+                            <a href="/dashboard/users/{{ $user->id }}/edit" class="badge bg-info"><i
+                                    class="bi bi-pencil-square"></i></a>
+
+                            <form action="/dashboard/users/{{ $user->id }}" method="post" class="d-inline">
+                                @method('delete')
+                                @csrf
+
+                                <button class="badge bg-danger border-0" onclick="return confirm('Are You Sure ?')"><i
+                                        class="bi bi-trash-fill"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

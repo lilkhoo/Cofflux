@@ -160,7 +160,8 @@ class DashboardMenuController extends Controller
 
     public function checkSlug(Request $request)
     {
-        $slug = SlugService::createSlug(Menu::class, 'slug', $request->namamenu);
+        // $slug = SlugService::createSlug(Menu::class, 'slug', $request->namamenu);
+        $slug = str($request->namamenu)->slug();
         return response()->json(['slug' => $slug]);
     }
 }

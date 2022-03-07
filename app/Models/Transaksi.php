@@ -27,4 +27,11 @@ class Transaksi extends Model
     // {
     //     return $this->belongsTo(Pegawai::class);
     // }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['tgl_transaksi'] ?? false, function ($query, $tgl_transaksi) {
+            return $query->whereDate('tgl_transaksi', $tgl_transaksi);
+        });
+    }
 }

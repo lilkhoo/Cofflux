@@ -11,6 +11,7 @@ use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\AdminCategoryController;
 
 use function GuzzleHttp\Promise\all;
 
@@ -113,6 +114,16 @@ Route::resource('/dashboard/transaksis', TransaksiController::class)->middleware
 Route::resource('/transaksi', PembelianController::class)->middleware('auth');
 
 
+// Route Untuk menjalankan Fungsi exportPDF Sesuai dengan tanggal
+Route::get('/laporan/transaksi/{tgl_transaksi}', [TransaksiController::class, 'exportPDF'])->name('transaksi.laporan');
+
+
+
+Route::get('/dashboard/categories', [AdminCategoryController::class, 'index'])->middleware('admin');
+
+
+
+
 
 
 
@@ -120,4 +131,4 @@ Route::resource('/transaksi', PembelianController::class)->middleware('auth');
 
 
 // Route Get checkSlug Untuk Sluggable
-Route::get('/dashboard/menus/checkSlug', [DashboardMenuController::class, 'checkSlug'])->middleware('auth');
+Route::get('/checkslug', [DashboardMenuController::class, 'checkSlug'])->middleware('auth');

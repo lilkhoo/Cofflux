@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('menu_id');
             $table->integer('jumlah');
             $table->integer('total');
+            $table->date('tgl_transaksi');
             $table->timestamps();
         });
     }

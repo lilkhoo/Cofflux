@@ -38,7 +38,6 @@
 
                 <div class="container">
                     <div class="row mb-2">
-                        <a href="" class="btn btn-primary mb-2">Pesan</a>
                         <a href="/dashboard/menus" class="btn btn-success">View All Menu's</a>
                     </div>
                 </div>

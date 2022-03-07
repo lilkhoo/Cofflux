@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiController extends Controller
 {
@@ -16,7 +17,8 @@ class TransaksiController extends Controller
     {
         // return Transaksi::all();
         return view('dashboardAdmin.transaksis.index', [
-            'transaksis' => Transaksi::latest()->get()
+            'transaksis' => Transaksi::latest()->filter(request(['tgl_transaksi']))->get(),
+            'dates' => Transaksi::latest()->get()->pluck('tgl_transaksi')
         ]);
     }
 
@@ -49,7 +51,10 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        //
+        $pdf = PDF::loadView('dashboardAdmin.transaksis.laporan', [
+            'transaksi' => Transaksi::latest()->get()
+        ]);
+        return $pdf->download('laporan.pdf');
     }
 
     /**
@@ -84,5 +89,20 @@ class TransaksiController extends Controller
     public function destroy(Transaksi $transaksi)
     {
         //
+    }
+
+    public function exportPDF($tgl_transaksi)
+    {
+        // return 'Oke';
+
+        if ($tgl_transaksi === 'all') {
+            $transaksis =  Transaksi::latest()->get();
+        } else {
+            $transaksis = Transaksi::latest()->filter(['tgl_transaksi' => $tgl_transaksi])->get();
+        }
+        $pdf = PDF::loadView('dashboardAdmin.transaksis.laporan', [
+            'transaksis' => $transaksis
+        ]);
+        return $pdf->stream('laporan.pdf');
     }
 }

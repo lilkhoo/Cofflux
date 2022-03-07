@@ -53,7 +53,8 @@ class DatabaseSeeder extends Seeder
         User::Create([
             'name' => 'Eko Setyono Wibowo',
             'email' => 'bowo1120@gmail.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'roles' => 'admin'
         ]);
 
         User::factory(10)->create();
@@ -89,7 +90,7 @@ class DatabaseSeeder extends Seeder
 
         Menu::factory(20)->create();
 
-        Transaksi::factory(10)->create();
+        // Transaksi::factory(10)->create();
 
         // Menu::create([
         //     'namamenu' => 'Hot Coffee',

@@ -74,7 +74,9 @@ class DataUserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('dashboardAdmin.users.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -86,7 +88,24 @@ class DataUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $rules = [
+            'name' => 'required|max:255',
+            'roles' => 'required'
+        ];
+
+        if ($request->email != $user->email) {
+            $rules['email'] = 'required|email:dns|unique:users';
+        }
+
+        if ($request->password) {
+            $validatedData['password'] = bcrypt($request->password);
+        }
+
+        $validatedData = $request->validate($rules);
+
+        $user->update($validatedData);
+
+        return redirect('/dashboard/users')->with('success', 'Edit User Successfully !');
     }
 
     /**
@@ -97,6 +116,8 @@ class DataUserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        User::destroy($user->id);
+
+        return redirect('/dashboard/users')->with('success', 'User Has Been Deleted !');
     }
 }

@@ -22,6 +22,7 @@ class TransaksiFactory extends Factory
             // 'pembuat' => $this->faker->name(),
             'menu_id' => mt_rand(1, 4),
             'jumlah' => mt_rand(1, 4),
+            'tgl_transaksi' => $this->faker->date(),
             'total' => 100000
         ];
     }
